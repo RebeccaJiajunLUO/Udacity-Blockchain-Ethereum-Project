@@ -55,3 +55,14 @@ contract('StarNotary', accounts => {
         })
     })
 })
+
+var expectThrow = async function(promise) {
+    try {
+        await promise
+    } catch (error) {
+        assert.exists(error)
+        return
+    }
+
+    assert.fail('expected an error, but none was found')
+}
