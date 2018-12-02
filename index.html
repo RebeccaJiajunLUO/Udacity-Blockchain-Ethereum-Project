@@ -27,17 +27,15 @@
         </div>
 
         <script>    
-         
+
             if(typeof web3 != 'undefined') { 
                 web3 = new Web3(web3.currentProvider) // what Metamask injected 
             } else {
                 // Instantiate and set Ganache as your provider
                 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
             }
-
             // The default (top) wallet account from a list of test accounts 
             web3.eth.defaultAccount = web3.eth.accounts[0];
-
             // The interface definition for your smart contract (the ABI) 
             var StarNotary = web3.eth.contract(
                 [
@@ -99,8 +97,8 @@
                 ]
             );
             // Grab the contract at specified deployed address with the interface defined by the ABI
-            var starNotary = StarNotary.at('0x8040086095e9bc41535094bf03eae1f6178b5260');
-            
+            var starNotary = StarNotary.at('0x1cd8ade01457216952f2db7325bb8143c364b318');
+
             // Get and display star name
             starNotary.starName(function (error, result) {
                 if (!error) {
@@ -109,7 +107,6 @@
                     console.log(error);
                 }
             });
-
             // Get and display star owner
             starNotary.starOwner(function (error, result) {
                 if (!error) {
@@ -118,7 +115,6 @@
                     console.log(error);
                 }
             });
-
             // Enable claim button being clicked
             function claimButtonClicked() { 
                 web3.eth.getAccounts(function(error, accounts) { 
@@ -141,7 +137,7 @@
                             console.log(error);
                         }
                     });
-                   
+
                 })
             }
         </script>
