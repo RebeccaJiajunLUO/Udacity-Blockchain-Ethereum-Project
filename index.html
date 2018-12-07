@@ -19,6 +19,26 @@
             </div>
 
             <div class="row">
+                <label class="bold">Dec:</label>
+                <label id="star-dec"></label>
+            </div>
+
+            <div class="row">
+                <label class="bold">Mag:</label>
+                <label id="star-mag"></label>
+            </div>
+
+            <div class="row">
+                <label class="bold">Cent:</label>
+                <label id="star-cent"></label>
+            </div>
+
+            <div class="row">
+                <label class="bold">Star Story:</label>
+                <label id="star-story"></label>
+            </div>
+
+            <div class="row">
                 <label class="bold">Star Owner:</label>
                 <label id="star-owner"></label>
             </div>
@@ -26,6 +46,16 @@
             <button id="claim-button" onclick="claimButtonClicked()">Claim Star</button>
         </div>
 
+        <div class="container">
+            <h1>Star Look-up</h1>
+
+            <div class="row">
+                <label class="bold">Star Token ID:</label>
+                <input type="text" id="star-tokenid-input" style="width:300px">
+            </div>
+            <button id="star-lookup" onlick="starLookupButtonClicked()">Look up a star by Token ID</button>
+        </div>
+            
         <script>    
 
             if(typeof web3 != 'undefined') { 

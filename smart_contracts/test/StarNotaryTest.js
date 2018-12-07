@@ -11,6 +11,7 @@ contract('StarNotary', accounts => {
     let dec = "dec_121.874"
     let mag = "mag_245.978"
     let starPrice = web3.toWei(.01, "ether")
+    let tx
 
     beforeEach(async function() { 
         this.contract = await StarNotary.new({from: accounts[0]})
@@ -80,4 +81,83 @@ contract('StarNotary', accounts => {
             })
         })
     })
+
+    describe('star uniqueness', () => {
+
+        let tokenId2 = 2
+
+        // first we mint our first star
+        beforeEach(async function() {
+            await this.contract.createStar(starName, starStory, ra, dec, mag, tokenId, {from: user1})
+        })
+
+        it('only unique stars can be minted', async function() {
+            // then we try to mint the same star, and we expect an error
+            await expectThrow(this.contract.createStar(starName, starStory, ra, dec, mag, tokenId, {from: user1}))
+        })
+
+        it('only unique starts can be minted even if their ID is different', async function() {
+            // then we try to mint the same star, and we expect an error
+            await expectThrow(this.contract.createStar(starName, starStory, ra, dec, mag, tokenId2, {from: user1}))
+        })
+
+        // it('minting unique stars does not fail', async function() {
+        //     for (let i = 0; i < 10; i++) {
+        //         let id = i
+        //         let newRa = i.toString()
+        //         let newDec = i.toString()
+        //         let newMag = i.toString()
+
+        //         await this.contract.createStar(starName, starStory, newRa, newDec, newMag, id, {from: user1})
+
+        //         let starInfo = await this.contract.tokenIdToStarInfo(id)
+        //         assert.equal(starInfo[0], starName)
+        //     }
+        // })
+    })
+
+    // describe('can grant approval to transfer', () => {
+
+    //     beforeEach(async function () {
+    //         await this.contract.mint(tokenId, {from: user1})
+    //         tx = await this.contract.approve(user2, tokenId, {from: user1})
+    //     })
+
+    //     it('set user2 as an approved address', async function () {
+    //         // Add logic
+    //     })
+
+    //     it('user2 can now transfer', async function () {
+    //         // Add logic
+    //     })
+
+    //     it('emits the correct event', async function () {
+    //         // Add logic
+    //     })
+    // })
+
+    // describe('can set an operator', () => {
+        
+    //     beforeEach(async function () {
+    //         await this.contract.mint(tokenId, {from: user1})
+
+    //         tx = await this.contract.setApprovalForAll(operator, true, {from: user1})
+    //     })
+
+
+    //     it('can set an operator', async function () {
+    //         assert.equal(await this.contract.isApprovedForAll(user1, operator), true);
+    //     })
+    // })
+
+    var expectThrow = async function(promise) {
+        try {
+            await promise
+        } catch (error) {
+            assert.exists(error)
+            return
+        }
+
+        assert.fail('expected an error, but none was found')
+    }
 })
