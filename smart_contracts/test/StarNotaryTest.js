@@ -1,6 +1,16 @@
 const StarNotary = artifacts.require('StarNotary')
 
-contract('StarNotary', accounts => { 
+contract('StarNotary', accounts => {
+
+    let user1 = accounts[1]
+    let user2 = accounts[2]
+    let tokenId = 1
+    let starName = "Star power 103!"
+    let starStory = "I love my wonderful star"
+    let ra = "ra_032.155"
+    let dec = "dec_121.874"
+    let mag = "mag_245.978"
+    let starPrice = web3.toWei(.01, "ether")
 
     beforeEach(async function() { 
         this.contract = await StarNotary.new({from: accounts[0]})
@@ -8,40 +18,39 @@ contract('StarNotary', accounts => {
 
     describe('can create a star', () => { 
         it('can create a star and get its name', async function () { 
-            let tokenId = 1
 
-            await this.contract.createStar('Awesome Star!', tokenId, {from: accounts[0]})
+            await this.contract.createStar(starName, starStory, ra, dec, mag, tokenId)
 
-            assert.equal(await this.contract.tokenIdToStarInfo(tokenId), 'Awesome Star!')
+            let checker = await this.contract.tokenIdToStarInfo(tokenId)
+
+            // compare the result to that from checker
+            assert.equal(checker[0], starName);
+            assert.equal(checker[1], starStory);
+            assert.equal(checker[2], ra);
+            assert.equal(checker[3], dec);
+            assert.equal(checker[4], mag);
         })
     })
 
     describe('buying and selling stars', () => { 
 
-        let user1 = accounts[1]
-        let user2 = accounts[2]
-
-        let starId = 1
-        let starPrice = web3.toWei(.01, "ether")
-
         beforeEach(async function () {
-            await this.contract.createStar('awesome star', starId, {from: user1})
+            await this.contract.createStar(starName, starStory, ra, dec, mag, tokenId, {from: user1})
         })
 
         describe('user1 can sell a star', () => { 
             it('user1 can put up their star for sale', async function () { 
-                await this.contract.putStarUpForSale(starId, starPrice, {from: user1})
-
-                assert.equal(await this.contract.starsForSale(starId), starPrice)
+                await this.contract.putStarUpForSale(tokenId, starPrice, {from: user1})
+                // look up the price of the star that is put on sale, compare with the set price
+                assert.equal(await this.contract.starsForSale(tokenId), starPrice)
             })
 
             it('user1 gets the funds after selling a star', async function () { 
-                let starPrice = web3.toWei(.05, 'ether')
 
-                await this.contract.putStarUpForSale(starId, starPrice, {from: user1})
+                await this.contract.putStarUpForSale(tokenId, starPrice, {from: user1})
 
                 let balanceOfUser1BeforeTransaction = web3.eth.getBalance(user1)
-                await this.contract.buyStar(starId, {from: user2, value: starPrice})
+                await this.contract.buyStar(tokenId, {from: user2, value: starPrice})
                 let balanceOfUser1AfterTransaction = web3.eth.getBalance(user1)
 
                 assert.equal(balanceOfUser1BeforeTransaction.add(starPrice).toNumber(), 
@@ -51,20 +60,20 @@ contract('StarNotary', accounts => {
 
         describe('user2 can buy a star that was put up for sale', () => { 
             beforeEach(async function () { 
-                await this.contract.putStarUpForSale(starId, starPrice, {from: user1})
+                await this.contract.putStarUpForSale(tokenId, starPrice, {from: user1})
             })
 
             it('user2 is the owner of the star after they buy it', async function () { 
-                await this.contract.buyStar(starId, {from: user2, value: starPrice})
+                await this.contract.buyStar(tokenId, {from: user2, value: starPrice})
 
-                assert.equal(await this.contract.ownerOf(starId), user2)
+                assert.equal(await this.contract.ownerOf(tokenId), user2)
             })
 
             it('user2 correctly has their balance changed', async function () { 
                 let overpaidAmount = web3.toWei(.05, 'ether')
 
                 const balanceOfUser2BeforeTransaction = web3.eth.getBalance(user2)
-                await this.contract.buyStar(starId, {from: user2, value: overpaidAmount, gasPrice:0})
+                await this.contract.buyStar(tokenId, {from: user2, value: overpaidAmount, gasPrice:0})
                 const balanceAfterUser2BuysStar = web3.eth.getBalance(user2)
 
                 assert.equal(balanceOfUser2BeforeTransaction.sub(balanceAfterUser2BuysStar), starPrice)
