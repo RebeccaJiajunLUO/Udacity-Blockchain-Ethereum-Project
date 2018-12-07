@@ -30,6 +30,7 @@ truffle test
 ```
 You should see a similar result as mine:
 
+![test](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/test.png)
 
 ### Deploy smart contract on Rinkeby test network
 With all tests passed, we can now deploy this smart contract on a public test network. In this case, we use Rinkeby.
@@ -41,6 +42,8 @@ Secondly, we need to run a deploy command:
 ``truffle deploy --network rinkeby``
 
 If deployed successfully, you should see a similar result as mine:
+
+![deploy](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/deploy.png)
 
 In my case, my Star Notary is deployed at
 ```
@@ -62,7 +65,7 @@ http://192.168.1.3:8080
 ```
 
 After you open this website on your browser, you should see:
-
+![webpage](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/webpage.png)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
