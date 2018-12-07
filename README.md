@@ -49,5 +49,20 @@ Transaction ID: 0x65b2029d9ab91c708136e6cb51378c072c0a61c98a21ec4fb00e6517c2c8bc
 ```
 You can see more details about this contract using Etherscan (Rinkeby version): https://rinkeby.etherscan.io/address/0x1cd8ade01457216952f2db7325bb8143c364b318
 
+### Interact with the smart contract on Rinkeby
+You can interact with this contract using a simple website. In your terminal, start the `http-server`:
+```
+cd <Project folder>
+http-server
+```
+There are two links, and I personally use the second one:
+```
+http://127.0.0.1:8080
+http://192.168.1.3:8080
+```
+
+After you open this website on your browser, you should see:
+
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
