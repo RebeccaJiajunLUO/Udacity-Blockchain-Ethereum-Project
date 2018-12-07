@@ -7,6 +7,7 @@
         <link rel="stylesheet" type="text/css" href="style.css">
 
         <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+        <script src="StarNotaryABI.js"></script>
     </head>
 
     <body>
@@ -15,33 +16,31 @@
 
             <div class="row">
                 <label class="bold">Star Name:</label>
-                <label id="star-name"></label>
+                <input type="text" id="star-name-input"></label>
             </div>
 
             <div class="row">
                 <label class="bold">Dec:</label>
-                <label id="star-dec"></label>
+                <input type="text" id="star-dec-input"></label>
             </div>
 
             <div class="row">
                 <label class="bold">Mag:</label>
-                <label id="star-mag"></label>
+                <input type="text" id="star-mag-input"></label>
             </div>
 
             <div class="row">
-                <label class="bold">Cent:</label>
-                <label id="star-cent"></label>
+                <label class="bold">Ra:</label>
+                <input type="text" id="star-ra-input"></label>
             </div>
 
             <div class="row">
                 <label class="bold">Star Story:</label>
-                <label id="star-story"></label>
+                <input type="text" id="star-story-input"></label>
             </div>
 
-            <div class="row">
-                <label class="bold">Star Owner:</label>
-                <label id="star-owner"></label>
-            </div>
+            <!-- If star is created successfully, it will show up -->
+            <div id="create-star-status"></div>
 
             <button id="claim-button" onclick="claimButtonClicked()">Claim Star</button>
         </div>
@@ -51,8 +50,12 @@
 
             <div class="row">
                 <label class="bold">Star Token ID:</label>
-                <input type="text" id="star-tokenid-input" style="width:300px">
+                <input type="text" id="star-tokenid-input">
             </div>
+
+            <!-- If star is found successfully, it will show up -->
+            <div id="star-lookup-result"></div>
+
             <button id="star-lookup" onlick="starLookupButtonClicked()">Look up a star by Token ID</button>
         </div>
             
@@ -67,107 +70,41 @@
             // The default (top) wallet account from a list of test accounts 
             web3.eth.defaultAccount = web3.eth.accounts[0];
             // The interface definition for your smart contract (the ABI) 
-            var StarNotary = web3.eth.contract(
-                [
-                    {
-                        "constant": false,
-                        "inputs": [],
-                        "name": "claimStar",
-                        "outputs": [],
-                        "payable": false,
-                        "stateMutability": "nonpayable",
-                        "type": "function"
-                    },
-                    {
-                        "anonymous": false,
-                        "inputs": [
-                            {
-                                "indexed": false,
-                                "name": "owner",
-                                "type": "address"
-                            }
-                        ],
-                        "name": "starClaimed",
-                        "type": "event"
-                    },
-                    {
-                        "inputs": [],
-                        "payable": false,
-                        "stateMutability": "nonpayable",
-                        "type": "constructor"
-                    },
-                    {
-                        "constant": true,
-                        "inputs": [],
-                        "name": "starName",
-                        "outputs": [
-                            {
-                                "name": "",
-                                "type": "string"
-                            }
-                        ],
-                        "payable": false,
-                        "stateMutability": "view",
-                        "type": "function"
-                    },
-                    {
-                        "constant": true,
-                        "inputs": [],
-                        "name": "starOwner",
-                        "outputs": [
-                            {
-                                "name": "",
-                                "type": "address"
-                            }
-                        ],
-                        "payable": false,
-                        "stateMutability": "view",
-                        "type": "function"
-                    }
-                ]
-            );
-            // Grab the contract at specified deployed address with the interface defined by the ABI
-            var starNotary = StarNotary.at('0x1cd8ade01457216952f2db7325bb8143c364b318');
+            // This address is from Metamask Rinkeby Test network
+            var StarNotary = web3.eth.contract(starNotaryABI).at('0x1cD8Ade01457216952f2db7325BB8143C364b318');
 
-            // Get and display star name
-            starNotary.starName(function (error, result) {
-                if (!error) {
-                    document.getElementById('star-name').innerText = result
-                } else { 
-                    console.log(error);
-                }
-            });
-            // Get and display star owner
-            starNotary.starOwner(function (error, result) {
-                if (!error) {
-                    document.getElementById('star-owner').innerText = result
-                } else { 
-                    console.log(error);
-                }
-            });
             // Enable claim button being clicked
             function claimButtonClicked() { 
-                web3.eth.getAccounts(function(error, accounts) { 
-                    if (error) { 
-                        console.log(error)
-                        return
-                    }
-                    var account = accounts[0]
-                    starNotary.claimStar(function (error, result) {
-                        if (!error) {
-                            var starClaimedEvent = starNotary.starClaimed({from: account});
-                            starClaimedEvent.watch(function(error, result) {
-                                if (!error) {
-                                    location.reload();
-                                } else {
-                                    console.log('watching for star claimed event is failing');
-                                }
-                            });
-                        } else { 
-                            console.log(error);
-                        }
-                    });
+                // Get the star information from user's input
+                const starName = document.getElementById("star-name-input").value
+                const starRa = document.getElementById("star-ra-input").value
+                const starDec = document.getElementById("star-dec-input").value
+                const starMag = document.getElementById("star-mag-input").value
+                const starStory = document.getElementById("star-story-input").value
+                const tokenId = starRa + starDec + starMag
 
+                // create star using smart contracts
+                starNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, function (error, result) {
+                    if (!error) {
+                        document.getElementById('create-star-status').innerText = "Star registered successfully!"
+                    } else {
+                        console.log(error);
+                    }
+                })
+            }
+
+            // Look up Star by tokenId (ra+dec+mag)
+            function starLookupButtonClicked() {
+                // Get the token ID from input
+                const tokenId = document.getElementById("star-tokenid-input").value
+
+                // look up star using smart contracts
+                starNotary.tokenIDToStarInfo(tokenId, function (error, result) {
+                    if (!error) {
+                        document.getElementById('star-lookup-result').innerText = result
+                    } else {
+                        console.log(error)
+                    }
                 })
             }
         </script>
