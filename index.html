@@ -39,6 +39,11 @@
                 <input type="text" id="star-story-input"></label>
             </div>
 
+            <div class="row">
+                <label class="bold">Star Token Id (for simplicity...):</label>
+                <input type="text" id="star-tokenid-input"></label>
+            </div>
+
             <!-- If star is created successfully, it will show up -->
             <div id="create-star-status"></div>
 
@@ -82,7 +87,7 @@
                 const starDec = document.getElementById("star-dec-input").value
                 const starMag = document.getElementById("star-mag-input").value
                 const starStory = document.getElementById("star-story-input").value
-                const tokenId = 1
+                const tokenId = document.getElementById("star-tokenid-input").value
 
                 // create star using smart contracts
                 StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, function (error, result) {
