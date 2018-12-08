@@ -82,7 +82,7 @@
                 const starDec = document.getElementById("star-dec-input").value
                 const starMag = document.getElementById("star-mag-input").value
                 const starStory = document.getElementById("star-story-input").value
-                const tokenId = starRa + starDec + starMag
+                const tokenId = 1
 
                 // create star using smart contracts
                 StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, function (error, result) {
