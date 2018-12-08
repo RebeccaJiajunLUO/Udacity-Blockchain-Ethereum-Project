@@ -56,7 +56,7 @@
             <!-- If star is found successfully, it will show up -->
             <div id="star-lookup-result"></div>
 
-            <button id="star-lookup" onlick="starLookupButtonClicked()">Look up a star by Token ID</button>
+            <button id="star-lookup" onclick="starLookupButtonClicked()">Look up a star by Token ID</button>
         </div>
             
         <script>    
@@ -72,6 +72,7 @@
             // The interface definition for your smart contract (the ABI) 
             // This address is from Metamask Rinkeby Test network
             var StarNotary = web3.eth.contract(starNotaryABI).at('0x1cD8Ade01457216952f2db7325BB8143C364b318');
+            console.log(StarNotary)
 
             // Enable claim button being clicked
             function claimButtonClicked() { 
@@ -84,7 +85,7 @@
                 const tokenId = starRa + starDec + starMag
 
                 // create star using smart contracts
-                starNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, function (error, result) {
+                StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, function (error, result) {
                     if (!error) {
                         document.getElementById('create-star-status').innerText = "Star registered successfully!"
                     } else {
@@ -99,8 +100,9 @@
                 const tokenId = document.getElementById("star-tokenid-input").value
 
                 // look up star using smart contracts
-                starNotary.tokenIDToStarInfo(tokenId, function (error, result) {
+                StarNotary.tokenIDToStarInfo(tokenId, function (error, result) {
                     if (!error) {
+                        console.log(result)
                         document.getElementById('star-lookup-result').innerText = result
                     } else {
                         console.log(error)
