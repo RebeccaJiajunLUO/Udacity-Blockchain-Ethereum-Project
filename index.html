@@ -90,7 +90,7 @@
                 const tokenId = document.getElementById("star-tokenid-input").value
 
                 // create star using smart contracts
-                StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, function (error, result) {
+                StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, { "from": account, "gas": 4950000, "gasPrice": '10000000000'}, function (error, result) {
                     if (!error) {
                         document.getElementById('create-star-status').innerText = "Star registered successfully!"
                     } else {
