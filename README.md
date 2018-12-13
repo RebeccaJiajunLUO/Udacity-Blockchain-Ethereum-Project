@@ -50,7 +50,7 @@ In my case, my Star Notary is deployed at
 Contract Address: 0xd56eccb93995c35159921044a64683531d85c0d2
 Transaction ID: 0x79e39a2001bd4c98b25680cd7f4f0855d8048a6c6083f7582266e2f0134410b3
 ```
-You can see more details about this contract using Etherscan (Rinkeby version): https://rinkeby.etherscan.io/address/0x1cd8ade01457216952f2db7325bb8143c364b318
+You can see more details about this contract using Etherscan (Rinkeby version): https://rinkeby.etherscan.io/address/0xd56eccb93995c35159921044a64683531d85c0d2
 
 ### Interact with the smart contract on Rinkeby
 You can interact with this contract using a simple website. In your terminal, start the `http-server`:
