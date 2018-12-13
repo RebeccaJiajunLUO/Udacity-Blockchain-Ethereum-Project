@@ -78,25 +78,34 @@
             // This address is from Metamask Rinkeby Test network
             var StarNotary = web3.eth.contract(starNotaryABI).at('0x1cD8Ade01457216952f2db7325BB8143C364b318');
             console.log(StarNotary)
-            var account = accounts[0]
 
             // Enable claim button being clicked
-            function claimButtonClicked() { 
-                // Get the star information from user's input
-                const starName = document.getElementById("star-name-input").value
-                const starRa = document.getElementById("star-ra-input").value
-                const starDec = document.getElementById("star-dec-input").value
-                const starMag = document.getElementById("star-mag-input").value
-                const starStory = document.getElementById("star-story-input").value
-                const tokenId = document.getElementById("star-tokenid-input").value
-
-                // create star using smart contracts
-                StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, { "from": account, "gas": 4950000, "gasPrice": '10000000000'}, function (error, result) {
-                    if (!error) {
-                        document.getElementById('create-star-status').innerText = "Star registered successfully!"
-                    } else {
-                        console.log(error);
+            function claimButtonClicked() {
+                web3.eth.getAccounts(function(error, accounts) {
+                    if (error) {
+                        console.log(error)
+                        return
                     }
+
+                    var account = accounts[0]
+                    console.log("Account: " + account)
+
+                    // Get the star information from user's input
+                    const starName = document.getElementById("star-name-input").value
+                    const starRa = document.getElementById("star-ra-input").value
+                    const starDec = document.getElementById("star-dec-input").value
+                    const starMag = document.getElementById("star-mag-input").value
+                    const starStory = document.getElementById("star-story-input").value
+                    const tokenId = document.getElementById("star-tokenid-input").value
+
+                    // create star using smart contracts
+                    StarNotary.createStar(starName, starStory, starRa, starDec, starMag, tokenId, { "from": account, "gas": 4950000, "gasPrice": '10000000000'}, function (error, result) {
+                        if (!error) {
+                            document.getElementById('create-star-status').innerText = "Star registered successfully!"
+                        } else {
+                            console.log(error);
+                        }
+                    })
                 })
             }
 
