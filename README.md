@@ -43,12 +43,12 @@ Secondly, we need to run a deploy command:
 
 If deployed successfully, you should see a similar result as mine:
 
-![deploy](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/deploy.png)
+![deploy](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/deploy2.png)
 
 In my case, my Star Notary is deployed at
 ```
-Contract Address: 0x1cD8Ade01457216952f2db7325BB8143C364b318
-Transaction ID: 0x65b2029d9ab91c708136e6cb51378c072c0a61c98a21ec4fb00e6517c2c8bcb9
+Contract Address: 0xd56eccb93995c35159921044a64683531d85c0d2
+Transaction ID: 0x79e39a2001bd4c98b25680cd7f4f0855d8048a6c6083f7582266e2f0134410b3
 ```
 You can see more details about this contract using Etherscan (Rinkeby version): https://rinkeby.etherscan.io/address/0x1cd8ade01457216952f2db7325bb8143c364b318
 
@@ -66,6 +66,9 @@ http://192.168.1.3:8080
 
 After you open this website on your browser, you should see:
 ![webpage](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/webpage.png)
+
+Then you can interact with the website (make sure you log on the Metamask at first!), as shown below:
+![webpage](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/webpage2.png)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
