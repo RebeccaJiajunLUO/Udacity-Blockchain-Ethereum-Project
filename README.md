@@ -69,6 +69,7 @@ After you open this website on your browser, you should see:
 
 Then you can interact with the website (make sure you log on the Metamask at first!), as shown below:
 ![webpage](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/webpage2.png)
+![webpage](https://github.com/chuanqin3/Udacity-Blockchain-Ethereum-Project/blob/master/img/sale.png)
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
